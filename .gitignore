@@ -23,3 +23,7 @@
 hs_err_pid*
 /.project
 /.settings/
+/core-java-8/.classpath
+/core-java-8/.project
+/core-java-8/target/
+/core-java-8/.settings/
