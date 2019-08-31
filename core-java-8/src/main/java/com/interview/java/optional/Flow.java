@@ -18,6 +18,8 @@ public final class Flow {
 	
 	private Flow start;
 	
+	private boolean closed = false;
+	
 	private Flow(Function<List<Information>, Optional<Information>> value, List<Information> args, InformationResult result) {
 		this.start = this;
 		this.value = value;
@@ -31,7 +33,6 @@ public final class Flow {
 		this.result = Optional.ofNullable(result);
 		this.start = start;
 	}
-	
 	
 	private static Flow of(Function<List<Information>, Optional<Information>> value, List<Information> args, InformationResult result, Flow start) {
 		return new Flow(value, args, result, start);
@@ -50,29 +51,35 @@ public final class Flow {
 		return ifPresent(Flow.of(value, args, result, this.start));
 	}
 
-	public Flow next(Flow flow) {
+	public Flow orNext(Flow flow) {
 		this.next = flow;
 		return Optional.ofNullable(this.next).orElse(this);
 	}
 
-	public Flow next(Function<List<Information>, Optional<Information>> value, List<Information> args, InformationResult result) {
-		return next(Flow.of(value, args, result, this.start));
+	public Flow orNext(Function<List<Information>, Optional<Information>> value, List<Information> args, InformationResult result) {
+		return orNext(Flow.of(value, args, result, this.start));
 	}
 	
 	public Flow end() {
+		this.start.closed = true;
 		return this.start;
 	}
 
-	public Optional<InformationResult> process() {
+	public Optional<InformationResult> process() throws IllegalAccessException {
+		if(!this.start.closed) {
+			throw new IllegalAccessException("Flow is not yet closed");
+		}
 		Optional<Flow> present = Optional.ofNullable(this.exist);
+		Optional<Flow> orNext = Optional.ofNullable(this.next);
 		Optional<InformationResult> infoResultOpt = this.result;
 		Optional<Information> infOpt = value.apply(args);
 		if (infOpt.isPresent() && present.isPresent()) {
-			infoResultOpt = Optional.ofNullable(this.exist.process().get());
+			infoResultOpt = Optional.ofNullable(this.exist.process().orElse(null));
 		}
-		if (infOpt.isPresent()) {
+		if (!this.result.isPresent() || infOpt.isPresent()) {
 			return infoResultOpt;
 		}
-		return next.process();
+		Flow nextFlow = orNext.orElse(Flow.of(informations->Optional.empty(), null, null, this.start));
+		return nextFlow.process();
 	}
 }
