@@ -1,5 +1,5 @@
 # Java 8
-#### 1. Lambda Expressions or `@FunctionalInterface`
+#### 1. Lambda Expressions
 #### 2. Method references
 #### 3. Default Methods
 #### 4. Type Annotations
@@ -19,7 +19,7 @@
 
 ### 4. Type Annotations
 ###### For Example:
-`java.lang.FunctionalInterface`
+###### `java.lang.FunctionalInterface`
 
 ### 5. Collections via `Pipelines and Streams`
 ###### 1. Classes in the new `java.util.stream` package provide a `Stream API` to support functional-style operations on streams of elements. The `Stream API` is integrated into the `Collections API`, which enables bulk operations on collections, such as `sequential` or `parallel` map-reduce transformations.
@@ -65,8 +65,8 @@
 ###### 2. Standard Encoding and Decoding Base64
 ###### 3. Unsigned Arithmetic Support
 ###### For Example:
-`java.util.function.Function`
-`java.util.function.Predicate`
-`java.util.function.Supplier`
-`java.util.function.Consumer`
-`java.util.Optional`
+###### `java.util.Optional`
+###### `java.util.function.Consumer`
+###### `java.util.function.Function`
+###### `java.util.function.Predicate`
+###### `java.util.function.Supplier`
