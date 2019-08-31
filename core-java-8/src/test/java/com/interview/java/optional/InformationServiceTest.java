@@ -18,7 +18,7 @@ public class InformationServiceTest {
 	@DisplayName("Calculate Information process flow")
 	@ParameterizedTest(name = "{index} => information={0}, result={1}")
 	@ArgumentsSource(CustomInformationArgumentProvider.class)
-	void information(Information info, InformationResult result) {
+	void information(Information info, InformationResult result) throws IllegalAccessException {
 		List<Information> infos = Arrays.asList(new Information[] { info });
 		InformationServiceImpl serviceImpl = new InformationServiceImpl();
 		InformationResult actual = serviceImpl.processForPartner(infos);
@@ -30,8 +30,13 @@ public class InformationServiceTest {
 
 		@Override
 		public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
-			return Stream
-					.of(Arguments.of(Information.of(null, "S", "Y"), InformationResult.of("SUPPLIER_ACTIVATED", null)));
+			return Stream.of(
+				Arguments.of(Information.of(null, null, null), InformationResult.of("ACTIVATED", null)),
+				Arguments.of(Information.of("123", "P", "N"), InformationResult.of("PARTNER_DEACTIVATED", null)),
+				Arguments.of(Information.of("123", "P", "Y"), InformationResult.of("PARTNER_ACTIVATED", "Can't Disclose")),
+				Arguments.of(Information.of(null, "S", "Y"), InformationResult.of("SUPPLIER_ACTIVATED", null)),
+				Arguments.of(Information.of(null, "S", "N"), InformationResult.of("SUPPLIER_DEACTIVATED", null))
+			);
 		}
 	}
 }
