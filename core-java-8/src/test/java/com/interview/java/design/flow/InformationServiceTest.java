@@ -1,4 +1,4 @@
-package com.interview.java.optional;
+package com.interview.java.design.flow;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,6 +12,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
+
+import com.interview.java.design.flow.Information;
+import com.interview.java.design.flow.InformationResult;
+import com.interview.java.design.flow.InformationServiceImpl;
 
 public class InformationServiceTest {
 
