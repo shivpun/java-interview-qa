@@ -24,51 +24,51 @@ public interface InformationService {
 	
 	default Function<List<Information>,Optional<Information>> customerAsActivePartner() {
 		return informations-> {
-			Optional<Information> information = informations.stream().filter(isActive.and(isCustomer).and(isPartner)).findFirst();
-			information.orElse(null);
+			Information information = informations.stream().filter(isActive.and(isCustomer).and(isPartner)).findFirst().orElse(null);
+			Optional<Information> infOpt = Optional.ofNullable(information);
 			Consumer<Information> consumer = (info)->System.out.println("Active customer found");
-			information.ifPresent(consumer);
-			return information;
+			infOpt.ifPresent(consumer);
+			return infOpt;
 		};
 	}
 	
 	default Function<List<Information>,Optional<Information>> customerAsDeActivatedPartner() {
 		return informations-> {
-			Optional<Information> information =  informations.stream().filter(isDeActivated.and(isCustomer).and(isPartner)).findFirst();
-			information.orElse(null);
+			Information information =  informations.stream().filter(isDeActivated.and(isCustomer).and(isPartner)).findFirst().orElse(null);
+			Optional<Information> infOpt = Optional.ofNullable(information);
 			Consumer<Information> consumer = (info)->System.out.println("customer has been DeActivated");
-			information.ifPresent(consumer);
-			return information;
+			infOpt.ifPresent(consumer);
+			return infOpt;
 		};
 	}
 	
 	default Function<List<Information>,Optional<Information>> companyAsDeActivatedSupplier() {
 		return informations->{
-			Optional<Information> information =  informations.stream().filter(isDeActivated.and(isCompany).and(isSupplier)).findFirst();
-			information.orElse(null);
+			Information information =  informations.stream().filter(isDeActivated.and(isCompany).and(isSupplier)).findFirst().orElse(null);
+			Optional<Information> infOpt = Optional.ofNullable(information);
 			Consumer<Information> consumer = (info)->System.out.println("company has been DeActivated");
-			information.ifPresent(consumer);
-			return information;
+			infOpt.ifPresent(consumer);
+			return infOpt;
 		};
 	}
 	
 	default Function<List<Information>,Optional<Information>> companyAsActiveSupplier() {
 		return informations->{
-			Optional<Information> information =  informations.stream().filter(isActive.and(isCompany).and(isSupplier)).findFirst();
-			information.orElse(null);
+			Information information =  informations.stream().filter(isActive.and(isCompany).and(isSupplier)).findFirst().orElse(null);
+			Optional<Information> infOpt = Optional.ofNullable(information);
 			Consumer<Information> consumer = (info)->System.out.println("Active Company found");
-			information.ifPresent(consumer);
-			return information;
+			infOpt.ifPresent(consumer);
+			return infOpt;
 		};
 	}
 	
 	default Function<List<Information>,Optional<Information>> companyAllowed() {
 		return informations->{
-			Optional<Information> information =  informations.stream().filter(isCompanyAllowed).findFirst();
-			information.orElse(null);
+			Information information =  informations.stream().filter(isCompanyAllowed).findFirst().orElse(new Information());
+			Optional<Information> infOpt = Optional.ofNullable(information);
 			Consumer<Information> consumer = (info)->System.out.println("Company is Allowed");
-			information.ifPresent(consumer);
-			return information;
+			infOpt.ifPresent(consumer);
+			return infOpt;
 		};
 	}
 }
