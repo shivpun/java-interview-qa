@@ -41,9 +41,8 @@ public class InformationServiceTest {
 				  .orNext(serviceImpl.companyAllowed(), informations,  new InformationResult("COMPANY_ACTIVATED", null))
 				  .ifPresent(serviceImpl.companyAsDeActivatedSupplier(), informations,  new InformationResult("SUPPLIER_DEACTIVATED", null))
 				  .orNext(serviceImpl.companyAsActiveSupplier(), informations, new InformationResult("SUPPLIER_ACTIVATED", null));
-		assertThrows(IllegalAccessException.class, ()->{
-			deActivatedCustomerPartnerFlow.process();
-		});
+		Exception exception = assertThrows(IllegalAccessException.class, ()->deActivatedCustomerPartnerFlow.process());
+		assertEquals("Flow is not yet closed", exception.getMessage());
 	}
 
 	static class CustomInformationArgumentProvider implements ArgumentsProvider {
