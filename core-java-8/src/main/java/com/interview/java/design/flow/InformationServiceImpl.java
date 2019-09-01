@@ -6,7 +6,7 @@ public class InformationServiceImpl implements InformationService {
 	
 	public InformationResult processForPartner(List<Information> informations) throws IllegalAccessException {
 		
-		Flow deActivatedCustomerPartnerFlow = Flow.of(customerAsDeActivatedPartner(), informations, new InformationResult("PARTNER_DEACTIVATED", null))
+		InformationFlow deActivatedCustomerPartnerFlow = InformationFlow.of(customerAsDeActivatedPartner(), informations, new InformationResult("PARTNER_DEACTIVATED", null))
 												  .orNext(customerAsActivePartner(), informations,  new InformationResult("PARTNER_ACTIVATED", "Can't Disclose"))
 												  .orNext(companyAllowed(), informations,  new InformationResult("COMPANY_ACTIVATED", null))
 												  .ifPresent(companyAsDeActivatedSupplier(), informations,  new InformationResult("SUPPLIER_DEACTIVATED", null))

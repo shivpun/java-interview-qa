@@ -12,8 +12,8 @@ public class InformationResult implements Serializable {
 	
 	public InformationResult(String action, String reason) {
 		super();
-		this.action = action;
-		this.reason = reason;
+		setAction(action);
+		setReason(reason);
 	}
 	
 	public static InformationResult of(String action, String reason) {

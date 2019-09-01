@@ -10,7 +10,7 @@ public interface InformationService {
 	
 	Predicate<Information> isCustomer = information->information.getCustomerId()!=null;
 	
-	Predicate<Information> isCompany = information->information.getCustomerId()==null;
+	//Predicate<Information> isCompany = information->information.getCustomerId()==null;
 	
 	Predicate<Information> isActive = information->"Y".equals(information.getAction());
 	
@@ -20,7 +20,7 @@ public interface InformationService {
 	
 	Predicate<Information> isSupplier = information->"S".equals(information.getCustomerType());
 	
-	Predicate<Information> isCompanyAllowed = isCompany.and(isActive.negate().or(isDeActivated.negate()));
+	Predicate<Information> isCompanyAllowed = isCustomer.negate().and(isActive.negate().or(isDeActivated.negate()));
 	
 	default Function<List<Information>,Optional<Information>> customerAsActivePartner() {
 		return informations-> {
@@ -44,7 +44,7 @@ public interface InformationService {
 	
 	default Function<List<Information>,Optional<Information>> companyAsDeActivatedSupplier() {
 		return informations->{
-			Information information =  informations.stream().filter(isDeActivated.and(isCompany).and(isSupplier)).findFirst().orElse(null);
+			Information information =  informations.stream().filter(isDeActivated.and(isCustomer.negate()).and(isSupplier)).findFirst().orElse(null);
 			Optional<Information> infOpt = Optional.ofNullable(information);
 			Consumer<Information> consumer = (info)->System.out.println("company has been DeActivated");
 			infOpt.ifPresent(consumer);
@@ -54,7 +54,7 @@ public interface InformationService {
 	
 	default Function<List<Information>,Optional<Information>> companyAsActiveSupplier() {
 		return informations->{
-			Information information =  informations.stream().filter(isActive.and(isCompany).and(isSupplier)).findFirst().orElse(null);
+			Information information =  informations.stream().filter(isActive.and(isCustomer.negate()).and(isSupplier)).findFirst().orElse(null);
 			Optional<Information> infOpt = Optional.ofNullable(information);
 			Consumer<Information> consumer = (info)->System.out.println("Active Company found");
 			infOpt.ifPresent(consumer);
